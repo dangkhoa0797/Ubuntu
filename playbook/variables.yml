@@ -1,0 +1,19 @@
+# ten may hoac group se trien khai
+HostNameManager: leader
+HostNameOrGroupReachable: reachable
+HostNameOrGroupWorker: worker
+
+data_of_docker: media
+
+# chon mat khau se dang ky cho portainer
+PassWordPortainer: PassWordPortainer
+
+#Dang nhap vao gitlab.dttt.vn
+Usergit: khoahd
+PassWordgit: aylU3pnA$EpAT69jjH0J
+
+# Dang nhap vao dockerhub.dttt.vn
+userdockerhub: admin
+passworddockerhub: Trinam@2019
+
+redisPassWord: 1!ghu$h4sC4D6ORt
