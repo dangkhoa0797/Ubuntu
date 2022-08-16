@@ -18,19 +18,19 @@ function installansible() {
 	}
 }
 
-menu=`zenity --list --title="WHATEVER Options" --column="0" "Install ansible" "update file hosts --> /etc/ansible/hosts" "Install swarm" "Refresh menu" --width=600 --height=300 --hide-header`
+menu=`zenity --list --title="Danh sách cài đặt" --column="0" "Cài đặt ansible" "Cập nhật file hosts --> /etc/ansible/hosts" "Cài đặt swarm" "Tải lại menu" --width=600 --height=300 --hide-header  --text="Chọn một nhiệm vụ"`
 
-if [ "$menu" == "Install ansible" ]; then
+if [ "$menu" == "Cài đặt ansible" ]; then
     installansible
     ./start.sh
 fi
 
-if [ "$menu" == "update file hosts --> /etc/ansible/hosts" ]; then
+if [ "$menu" == "Cập nhật file hosts --> /etc/ansible/hosts" ]; then
     cp -f ./hosts /etc/ansible/hosts
     ./start.sh
 fi
 
-if [ "$menu" == "Install swarm" ]; then
+if [ "$menu" == "Cài đặt swarm" ]; then
     ansible-playbook playbook/umanager.yml
     ansible-playbook playbook/umanager.yml --tags dkp
     ansible-playbook playbook/managerjoin.yml
@@ -38,7 +38,8 @@ if [ "$menu" == "Install swarm" ]; then
     ./start.sh
 fi
 
-if [ "$menu" == "Refresh menu" ]; then
+if [ "$menu" == "Tải lại menu" ]; then
     ./start.sh
 fi
 exit 0
+# Nhấn Esc để đóng
