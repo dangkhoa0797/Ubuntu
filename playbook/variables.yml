@@ -3,7 +3,7 @@ HostNameManager: leader
 HostNameOrGroupReachable: reachable
 HostNameOrGroupWorker: worker
 
-data_of_docker: media
+data_of_docker: home
 
 # chon mat khau se dang ky cho portainer
 PassWordPortainer: PassWordPortainer
