@@ -18,7 +18,7 @@ function installansible() {
 	}
 }
 
-menu=`zenity --list --width=600 --height=300 \
+menu=`zenity --list --width=800 --height=400 \
 --title="Danh sách cài đặt" \
 --text='<span foreground="pink" font="26">Chọn một nhiệm vụ.\n</span>' \
   --column="Số thứ tự" --column="Lệnh" --column="Ghi chú" \
