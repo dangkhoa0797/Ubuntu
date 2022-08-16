@@ -1,13 +1,32 @@
 #!/bin/bash
 
 sudo apt-get install dialog
-HEIGHT=15
-WIDTH=40
-CHOICE_HEIGHT=6
+HEIGHT=20
+WIDTH=60
+CHOICE_HEIGHT=7
 BACKTITLE="Install with ansible"
 TITLE="Install swarm"
 MENU="Choose one of the following options:"
 
+function installansible() {
+	{
+    	apt install python3-pip -y
+        pip3 install ansible
+        mkdir -p /etc/ansible/
+        printf '
+        ansible ansible_host=192.168.253.140 ansible_port=22 ansible_user=root
+
+        [reachable]
+        ubuntu202 ansible_host=192.168.253.139 ansible_port=22 ansible_user=root
+
+        [worker]
+        ubuntu201 ansible_host=192.168.253.138 ansible_port=22 ansible_user=root
+        ' > /etc/ansible/hosts
+	} | dialog --title "Gauge" --gauge "Wait please..." 10 60 0
+}
+
+while [ 1 ]
+do
 OPTIONS=(1 "install ansible"
          2 "update file hosts --> /etc/ansible/hosts"
          3 "install manager leader *"
@@ -27,16 +46,17 @@ CHOICE=$(dialog --clear \
 
 case $CHOICE in
         1)
-            chmod a+x playbook/installansible.sh
-            playbook/installansible.sh
-            cp -f ./hosts /etc/ansible/hosts
+            installansible
+			dialog --msgbox "install ansible complete!!!" 20 78
+            ./start
             ;;
         2)
-            cp -f ./hosts /etc/ansible/hosts
-            echo " update file hosts complete!!!"
+            cp -f ./hosts /etc/ansible/hosts | dialog --title "Gauge" --gauge "Wait please..." 10 60 0
+			dialog --msgbox "update file hosts complete!!!" 20 78
+            ./start
             ;;
         3)
-            ansible-playbook playbook/umanager.yml
+            ansible-playbook playbook/umanager.yml | dialog --title "Gauge" --gauge "Wait please..." 10 60 0
             ;;
         4)
             ansible-playbook playbook/managerjoin.yml
@@ -53,3 +73,5 @@ case $CHOICE in
         7)
             ansible-playbook playbook/umanager.yml --tags dkp
 esac
+exit
+done
