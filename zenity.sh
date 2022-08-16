@@ -18,19 +18,28 @@ function installansible() {
 	}
 }
 
-menu=`zenity --list --title="Danh sách cài đặt" --column="0" "Cài đặt ansible" "Cập nhật file hosts --> /etc/ansible/hosts" "Cài đặt swarm" "Tải lại menu" --width=600 --height=300 --hide-header  --text="Chọn một nhiệm vụ"`
+menu=`zenity --list --width=600 --height=300 \
+--title="Danh sách cài đặt" \
+--text='<span foreground="pink" font="26">Chọn một nhiệm vụ.\n</span>' \
+  --column="Số thứ tự" --column="Lệnh" --column="Ghi chú" \
+    1 "Cài đặt ansible" k \
+    2 "Cập nhật file hosts --> /etc/ansible/hosts" k\
+    3 "Cài đặt swarm" k\
+    4 "Tải lại menu" k
 
-if [ "$menu" == "Cài đặt ansible" ]; then
-    installansible
+     `
+
+if [ "$menu" == "1" ]; then
+    installansible 
     ./start.sh
 fi
 
-if [ "$menu" == "Cập nhật file hosts --> /etc/ansible/hosts" ]; then
+if [ "$menu" == "2" ]; then
     cp -f ./hosts /etc/ansible/hosts
     ./start.sh
 fi
 
-if [ "$menu" == "Cài đặt swarm" ]; then
+if [ "$menu" == "3" ]; then
     ansible-playbook playbook/umanager.yml
     ansible-playbook playbook/umanager.yml --tags dkp
     ansible-playbook playbook/managerjoin.yml
@@ -38,7 +47,7 @@ if [ "$menu" == "Cài đặt swarm" ]; then
     ./start.sh
 fi
 
-if [ "$menu" == "Tải lại menu" ]; then
+if [ "$menu" == "4" ]; then
     ./start.sh
 fi
 exit 0
