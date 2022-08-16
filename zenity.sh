@@ -20,7 +20,7 @@ function installansible() {
 
 menu=`zenity --list --width=800 --height=400 \
 --title="Danh sách cài đặt" \
---text='<span foreground="pink" font="26">Chọn một nhiệm vụ.\n</span>' \
+--text='<span foreground="Violet" font="26">Chọn một nhiệm vụ.\n</span>' \
   --column="Số thứ tự" --column="Lệnh" --column="Ghi chú" \
     1 "Cài đặt ansible" k \
     2 "Cập nhật file hosts --> /etc/ansible/hosts" k\
