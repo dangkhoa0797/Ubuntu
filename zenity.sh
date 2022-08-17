@@ -50,7 +50,7 @@ menu=`zenity --list --width=800 --height=400 \
     2 "Copy keygen ssh" k\
     3 "Cập nhật file hosts" k\
     4 "Cập nhật file variables.yml" k\
-    5 "Cài đặt swarm" k\
+    5 "Cài đặt hệ thống swarm" k\
     0 "Tải lại menu" k\
 
      `
