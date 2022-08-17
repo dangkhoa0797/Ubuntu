@@ -3,20 +3,14 @@ sudo -i
 sudo passwd root
 nano /etc/ssh/sshd_config --> PermitRootLogin yes
 systemctl restart ssh
-sudo apt-get update && sudo apt-get upgrade
 
 2. lấy code ansible về
 git clone -b ubuntu22 https://git.dttt.vn/gitadmin/ansible.git
 
 3. thiết lập ssh đến các server
-#Tạo keygen ssh (chỉ cần chạy 1 lần, về sau chỉ cần copy keygen này nếu mất hay lỗi mới tạo lại)
-ssh-keygen
 
 # copy keygen tới máy được điều khiển
-ssh-copy-id root@$IPM
-#ssh-copy-id -p 2238 root@192.168.1.42
 
-VD: ssh-copy-id root@192.168.253.161
 
 4. Cài đặt ansible
 #cài trực tiếp: yêu cầu linux hỗ trợ python3 trở lên (ubuntu 20.xx trở lên)

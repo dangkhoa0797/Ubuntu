@@ -25,6 +25,16 @@ function installansible() {
 	} | dialog --title "Gauge" --gauge "Wait please..." 10 60 0
 }
 
+function UpdateAndUpgrade()
+{
+    DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' upgrade
+    DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' dist-upgrade
+
+    apt-get autoremove -y
+    apt-get clean
+    apt-get autoclean
+}
+
 while [ 1 ]
 do
 OPTIONS=(1 "install ansible"
@@ -46,7 +56,9 @@ CHOICE=$(dialog --clear \
 
 case $CHOICE in
         1)
+            UpdateAndUpgrade
             installansible
+            < /dev/zero ssh-keygen -q -N ""
 			dialog --msgbox "install ansible complete!!!" 20 78
             ./start
             ;;
