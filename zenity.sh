@@ -61,6 +61,13 @@ if [ "$menu" == "1" ]; then
     ./zenity.sh
 fi
 
+if [ "$menu" == "2" ]; then
+    nano server.txt
+    insertpass
+    copykeygen
+    ./zenity.sh
+fi
+
 if [ "$menu" == "3" ]; then
     nano hosts
     cp -f ./hosts /etc/ansible/hosts
@@ -84,11 +91,5 @@ if [ "$menu" == "0" ]; then
     ./zenity.sh
 fi
 
-if [ "$menu" == "6" ]; then
-    nano server.txt
-    insertpass
-    copykeygen
-    ./zenity.sh
-fi
 exit 0
 # Nhấn Esc để đóng
