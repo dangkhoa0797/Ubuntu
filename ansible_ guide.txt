@@ -5,7 +5,7 @@ nano /etc/ssh/sshd_config --> PermitRootLogin yes
 systemctl restart ssh
 
 2. lấy code ansible về
-git clone -b ubuntu22 https://git.dttt.vn/gitadmin/ansible.git
+git clone https://github.com/dangkhoa0797/debian.git
 
 3. thiết lập ssh đến các server
 
