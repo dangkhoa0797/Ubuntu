@@ -18,16 +18,6 @@ function installansible() {
 	}
 }
 
-function UpdateAndUpgrade()
-{
-    DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' upgrade
-    DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' dist-upgrade
-
-    apt-get autoremove -y
-    apt-get clean
-    apt-get autoclean
-}
-
 function copykeygen()
 {   
     sudo apt-get install -y sshpass
@@ -42,15 +32,17 @@ function insertpass()
 }
 
 
+
 menu=`zenity --list --width=800 --height=400 \
 --title="Danh sách cài đặt" \
---text='<span foreground="Violet" font="26">Chọn một nhiệm vụ.\n</span>' \
+--text='<span foreground="Violet" font="26">Các bước cài đặt.\n</span>' \
   --column="Số thứ tự" --column="Lệnh" --column="Ghi chú" \
     1 "Cài đặt ansible" k \
     2 "Copy keygen ssh" k\
-    3 "Cập nhật file hosts" k\
+    3 "Cập nhật file hosts --> /etc/ansible/hosts" k\
     4 "Cập nhật file variables.yml" k\
     5 "Cài đặt hệ thống swarm" k\
+    6 "Cài worker" k\
     0 "Tải lại menu" k\
 
      `
@@ -58,25 +50,25 @@ menu=`zenity --list --width=800 --height=400 \
 if [ "$menu" == "1" ]; then
     installansible
     ssh-keygen -b 2048 -t rsa -f /root/.ssh/id_rsa -q -N "" 0>&-
-    ./zenity.sh
+    ./start.sh
 fi
 
 if [ "$menu" == "2" ]; then
     nano server.txt
     insertpass
     copykeygen
-    ./zenity.sh
+    ./start.sh
 fi
 
 if [ "$menu" == "3" ]; then
     nano hosts
     cp -f ./hosts /etc/ansible/hosts
-    ./zenity.sh
+    ./start.sh
 fi
 
 if [ "$menu" == "4" ]; then
     nano playbook/variables.yml
-    ./zenity.sh
+    ./start.sh
 fi
 
 if [ "$menu" == "5" ]; then
@@ -84,12 +76,16 @@ if [ "$menu" == "5" ]; then
     ansible-playbook playbook/umanager.yml --tags dkp
     ansible-playbook playbook/managerjoin.yml
     ansible-playbook playbook/workerjoin.yml
-    ./zenity.sh
+    ./start.sh
+fi
+
+if [ "$menu" == "6" ]; then
+    ansible-playbook playbook/workerjoin.yml
+    ./start.sh
 fi
 
 if [ "$menu" == "0" ]; then
-    ./zenity.sh
+    ./start.sh
 fi
-
 exit 0
 # Nhấn Esc để đóng
