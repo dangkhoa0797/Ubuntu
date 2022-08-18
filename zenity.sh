@@ -32,7 +32,7 @@ function insertpass()
 }
 
 
-
+while
 menu=`zenity --list --width=800 --height=400 \
 --title="Danh sách cài đặt" \
 --text='<span foreground="Violet" font="26">Các bước cài đặt.\n</span>' \
@@ -46,7 +46,7 @@ menu=`zenity --list --width=800 --height=400 \
     0 "Tải lại menu" k\
 
      `
-
+do
 if [ "$menu" == "1" ]; then
     installansible
     ssh-keygen -b 2048 -t rsa -f /root/.ssh/id_rsa -q -N "" 0>&-
@@ -87,5 +87,6 @@ fi
 if [ "$menu" == "0" ]; then
     ./start.sh
 fi
+done
 exit 0
 # Nhấn Esc để đóng
