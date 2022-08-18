@@ -36,14 +36,15 @@ function UpdateAndUpgrade()
 }
 
 while [ 1 ]
-do
 OPTIONS=(1 "install ansible"
-         2 "update file hosts --> /etc/ansible/hosts"
-         3 "install manager leader *"
-         4 "install manager reachable"
-         5 "install worker"
-         6 "install swarm"
-         7 "registering portainer")
+         2 "Copy keygen ssh"
+         3 "update file hosts --> /etc/ansible/hosts"
+         4 "Cập nhật file variables.yml"
+         5 "install manager leader *"
+         6 "install manager reachable"
+         7 "install worker"
+         8 "install swarm"
+)
 
 CHOICE=$(dialog --clear \
                 --backtitle "$BACKTITLE" \
@@ -53,37 +54,53 @@ CHOICE=$(dialog --clear \
                 "${OPTIONS[@]}" \
                 2>&1 >/dev/tty)
 
-
+do
 case $CHOICE in
         1)
-            UpdateAndUpgrade
             installansible
             < /dev/zero ssh-keygen -q -N ""
 			dialog --msgbox "install ansible complete!!!" 20 78
-            ./start
             ;;
         2)
+            nano server.txt
+            insertpass
+            copykeygen;;
+        3)
+            nano hosts
             cp -f ./hosts /etc/ansible/hosts | dialog --title "Gauge" --gauge "Wait please..." 10 60 0
 			dialog --msgbox "update file hosts complete!!!" 20 78
-            ./start
-            ;;
-        3)
-            ansible-playbook playbook/umanager.yml | dialog --title "Gauge" --gauge "Wait please..." 10 60 0
             ;;
         4)
-            ansible-playbook playbook/managerjoin.yml
-            ;;
+            nano playbook/variables.yml;;
         5)
-            ansible-playbook playbook/workerjoin.yml
+            ansible-playbook playbook/umanager.yml
             ;;
         6)
+            ansible-playbook playbook/managerjoin.yml
+            ;;
+        7)
+            ansible-playbook playbook/workerjoin.yml
+            ;;
+        8)
             ansible-playbook playbook/umanager.yml
             ansible-playbook playbook/umanager.yml --tags dkp
             ansible-playbook playbook/managerjoin.yml
             ansible-playbook playbook/workerjoin.yml            
             ;;
-        7)
-            ansible-playbook playbook/umanager.yml --tags dkp
+        0)
+            ./start
 esac
-exit
 done
+exit 0
+function copykeygen()
+{   
+    sudo apt-get install -y sshpass
+    for ip in `cat server.txt`; do
+        sshpass -f password.txt ssh-copy-id -i ~/.ssh/id_rsa.pub -p 2239 $ip
+    done
+}
+
+function insertpass()
+{   
+    kdialog --title "passwd" --inputbox "mat khau" > password.txt
+}
