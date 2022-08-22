@@ -80,6 +80,7 @@ if [ "$menu" == "5" ]; then
 fi
 
 if [ "$menu" == "6" ]; then
+    ansible-playbook playbook/umanager.yml --tags token
     ansible-playbook playbook/workerjoin.yml
     ./start.sh
 fi

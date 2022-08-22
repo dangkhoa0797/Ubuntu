@@ -22,9 +22,8 @@ function installansible() {
         [worker]
         ubuntu201 ansible_host=192.168.253.138 ansible_port=22 ansible_user=root
         ' > /etc/ansible/hosts
-	} | dialog --title "Gauge" --gauge "Wait please..." 10 60 0
+	}
 }
-
 function UpdateAndUpgrade()
 {
     DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' upgrade
@@ -33,6 +32,17 @@ function UpdateAndUpgrade()
     apt-get autoremove -y
     apt-get clean
     apt-get autoclean
+}
+function copykeygen()
+{   
+    sudo apt-get install -y sshpass
+    for ip in `cat server.txt`; do
+        sshpass -f password.txt ssh-copy-id -i ~/.ssh/id_rsa.pub -p 2239 $ip
+    done
+}
+function insertpass()
+{   
+    kdialog --title "passwd" --inputbox "mat khau" > password.txt
 }
 
 while [ 1 ]
@@ -79,6 +89,7 @@ case $CHOICE in
             ansible-playbook playbook/managerjoin.yml
             ;;
         7)
+            ansible-playbook playbook/umanager.yml --tags token
             ansible-playbook playbook/workerjoin.yml
             ;;
         8)
@@ -92,15 +103,3 @@ case $CHOICE in
 esac
 done
 exit 0
-function copykeygen()
-{   
-    sudo apt-get install -y sshpass
-    for ip in `cat server.txt`; do
-        sshpass -f password.txt ssh-copy-id -i ~/.ssh/id_rsa.pub -p 2239 $ip
-    done
-}
-
-function insertpass()
-{   
-    kdialog --title "passwd" --inputbox "mat khau" > password.txt
-}
